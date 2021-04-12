@@ -1,0 +1,122 @@
+//ElectroTamizha
+
+int Motor_A_Reverse = 5; // RIGHT MOTOR
+int Motor_A_Forward = 6; //RIGHT MOTOR
+
+int Motor_B_Reverse = 9; //LEFT MOTOR
+int Motor_B_Forward = 10;// LEFT MOTOR
+
+int fled = 11; // YOU CAN ALSO USE THIS PIN FOR OTHER PURPOSES
+int bled = 12;  // YOU CAN ALSO USE THIS PIN FOR OTHER PURPOSES
+int horn = 4;  //USE THIS PIN AS WATER PUMP
+
+void setup() {
+  Serial.begin(9600);
+  
+  pinMode(Motor_A_Forward, OUTPUT);
+  pinMode(Motor_A_Reverse, OUTPUT);
+
+  pinMode(Motor_B_Forward, OUTPUT);
+  pinMode(Motor_B_Reverse, OUTPUT);
+
+  pinMode(fled, OUTPUT);
+  pinMode(bled, OUTPUT);
+  pinMode(horn, OUTPUT);
+}
+
+void loop() {
+
+  if(Serial.available() > 0)
+  {
+    char data;
+    data = Serial.read();
+    Serial.write(Serial.read());
+
+    switch (data)
+    {
+      case 'S': //STOP
+        digitalWrite(Motor_A_Reverse, LOW);
+        digitalWrite(Motor_B_Reverse, LOW);
+        digitalWrite(Motor_A_Forward, LOW);
+        digitalWrite(Motor_B_Forward, LOW);
+        break;
+      
+      case 'F': //FORWARD
+        digitalWrite(Motor_A_Reverse, LOW);
+        digitalWrite(Motor_B_Reverse, LOW);
+        digitalWrite(Motor_A_Forward, HIGH);
+        digitalWrite(Motor_B_Forward, HIGH);
+        break;
+        
+      case 'B': //REVERSE
+        digitalWrite(Motor_A_Forward, LOW);
+        digitalWrite(Motor_B_Forward, LOW);
+        digitalWrite(Motor_A_Reverse, HIGH);
+        digitalWrite(Motor_B_Reverse, HIGH);
+        break;
+
+      case 'L': //LEFT
+        digitalWrite(Motor_A_Reverse, LOW);
+        digitalWrite(Motor_A_Forward, HIGH);
+        break;
+        
+      case 'R': //RIGHT
+        digitalWrite(Motor_B_Reverse, LOW);
+        digitalWrite(Motor_B_Forward, HIGH);
+        break;
+        
+      case 'G': //FORWARD LEFT
+        digitalWrite(Motor_A_Reverse, LOW);
+        digitalWrite(Motor_A_Forward, HIGH);
+        digitalWrite(Motor_B_Reverse, HIGH);
+        digitalWrite(Motor_B_Forward, LOW);
+        break;
+        
+      case 'I': //FORWARD RIGHT
+        digitalWrite(Motor_A_Reverse, HIGH);
+        digitalWrite(Motor_A_Forward, LOW);
+        digitalWrite(Motor_B_Reverse, LOW);
+        digitalWrite(Motor_B_Forward, HIGH);
+        break;
+
+      case 'H': //BACK LEFT
+        digitalWrite(Motor_A_Reverse, HIGH);
+        digitalWrite(Motor_A_Forward, LOW);
+        digitalWrite(Motor_B_Reverse, LOW);
+        digitalWrite(Motor_B_Forward, HIGH);
+        break;
+        
+      case 'J': //FORWARD RIGHT
+        digitalWrite(Motor_A_Reverse, LOW);
+        digitalWrite(Motor_A_Forward, HIGH);
+        digitalWrite(Motor_B_Reverse, HIGH);
+        digitalWrite(Motor_B_Forward, LOW);
+        break;
+
+         case 'W': //Front Lights ON
+        digitalWrite(fled, HIGH);
+        break;
+
+        case 'w': //Front Lights OFF
+        digitalWrite(fled, LOW);
+        break;
+
+        case 'U': //Back Lights ON
+        digitalWrite(bled, HIGH);
+        break;
+
+        case 'u': //Back Lights OFF
+        digitalWrite(bled, LOW);
+        break;
+
+        case 'V': //Horn ON
+        digitalWrite(horn, HIGH);
+        break;
+
+        case 'v': //Horn OFF
+        digitalWrite(horn, LOW);
+        break;
+
+     }
+  }
+}
